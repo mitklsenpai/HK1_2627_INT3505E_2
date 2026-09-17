@@ -35,3 +35,28 @@
 ### Yêu cầu response dạng JSON
 
 ![JSON response](../proof_images/Week2/json%20response.png)
+
+
+## Assignments Ex1: Lấy order theo ID
+
+### `GET /orders/<id>` - Lấy order tồn tại
+
+![GET order theo ID](../proof_images/Week2/assignments/ex1/get%20order.png)
+
+## Assignments Ex3: ETag và cập nhật book
+
+### `GET /books/1` - Lấy book lần đầu và nhận ETag
+
+![Lấy book lần đầu](../proof_images/Week2/assignments/ex3/first%20time%20get%20book.png)
+
+### `GET /books/1` với `If-None-Match` - `304 Not Modified`
+
+![Fetch book với ETag](../proof_images/Week2/assignments/ex3/fetch%20the%20same%20order.png)
+
+### `PATCH /books/1` - Cập nhật book thành công - Đổi lại data mới
+
+![PATCH book](../proof_images/Week2/assignments/ex3/patch%20oder.png)
+
+### `GET /books/1` sau khi cập nhật Etag cập nhật và không trả về 304 nữa
+
+![Lấy book sau khi PATCH](../proof_images/Week2/assignments/ex3/fetch%20after%20patching%20order.png)
