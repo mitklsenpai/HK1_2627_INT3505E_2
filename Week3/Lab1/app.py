@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
-
+from Week3.Lab2.error_handler import (ProblemError, initErrorHandler)
 # MOCK DATA
 posts = [
     {
@@ -35,6 +35,8 @@ followers = [
     }
 ]
 
+
+initErrorHandler(app)
 
 @app.get("/api/v1/posts")
 def get_posts():
@@ -80,9 +82,11 @@ def update_post(post_id):
 
             return jsonify(post), 200
 
-    return jsonify({
-        "error": "Post not found"
-    }), 404
+    raise ProblemError(
+        404,
+        "Post Not Found",
+        f"Post {post_id} does not exist"
+    )
 
 @app.patch("/api/v1/posts/<int:post_id>")
 def patch_post(post_id):
@@ -100,9 +104,11 @@ def patch_post(post_id):
 
             return jsonify(post), 200
 
-    return jsonify({
-        "error": "Post not found"
-    }), 404
+    raise ProblemError(
+        404,
+        "Post Not Found",
+        f"Post {post_id} does not exist"
+    )
 
 @app.delete("/api/v1/posts/<int:post_id>")
 def delete_post(post_id):
@@ -114,9 +120,11 @@ def delete_post(post_id):
 
             return "", 204
 
-    return jsonify({
-        "error": "Post not found"
-    }), 404
+    raise ProblemError(
+        404,
+        "Post Not Found",
+        f"Post {post_id} does not exist"
+    )
 
 
 @app.get("/api/v1/posts/<int:post_id>/comments")
