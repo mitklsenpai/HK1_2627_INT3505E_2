@@ -1,0 +1,36 @@
+# Mock data cho Lab3: 30 orders
+# Schema: {"id": int, "customer_id": int, "status": str, "price": float}
+# status in: pending | paid | shipped | cancelled
+
+ORDERS = [
+    {"id": 1, "customer_id": 101, "status": "pending", "price": 99.99},
+    {"id": 2, "customer_id": 102, "status": "paid", "price": 45.5},
+    {"id": 3, "customer_id": 103, "status": "shipped", "price": 120.0},
+    {"id": 4, "customer_id": 104, "status": "cancelled", "price": 75.25},
+    {"id": 5, "customer_id": 105, "status": "pending", "price": 200.0},
+    {"id": 6, "customer_id": 101, "status": "paid", "price": 15.99},
+    {"id": 7, "customer_id": 102, "status": "shipped", "price": 310.5},
+    {"id": 8, "customer_id": 103, "status": "cancelled", "price": 88.88},
+    {"id": 9, "customer_id": 104, "status": "pending", "price": 55.0},
+    {"id": 10, "customer_id": 105, "status": "paid", "price": 199.99},
+    {"id": 11, "customer_id": 101, "status": "shipped", "price": 42.42},
+    {"id": 12, "customer_id": 102, "status": "cancelled", "price": 67.89},
+    {"id": 13, "customer_id": 103, "status": "pending", "price": 150.0},
+    {"id": 14, "customer_id": 104, "status": "paid", "price": 23.5},
+    {"id": 15, "customer_id": 105, "status": "shipped", "price": 499.99},
+    {"id": 16, "customer_id": 101, "status": "cancelled", "price": 130.25},
+    {"id": 17, "customer_id": 102, "status": "pending", "price": 78.0},
+    {"id": 18, "customer_id": 103, "status": "paid", "price": 95.5},
+    {"id": 19, "customer_id": 104, "status": "shipped", "price": 180.75},
+    {"id": 20, "customer_id": 105, "status": "cancelled", "price": 60.0},
+    {"id": 21, "customer_id": 101, "status": "pending", "price": 210.0},
+    {"id": 22, "customer_id": 102, "status": "paid", "price": 33.33},
+    {"id": 23, "customer_id": 103, "status": "shipped", "price": 145.6},
+    {"id": 24, "customer_id": 104, "status": "cancelled", "price": 89.99},
+    {"id": 25, "customer_id": 105, "status": "pending", "price": 175.25},
+    {"id": 26, "customer_id": 101, "status": "paid", "price": 250.0},
+    {"id": 27, "customer_id": 102, "status": "shipped", "price": 19.99},
+    {"id": 28, "customer_id": 103, "status": "cancelled", "price": 110.0},
+    {"id": 29, "customer_id": 104, "status": "pending", "price": 165.5},
+    {"id": 30, "customer_id": 105, "status": "paid", "price": 299.0},
+]
