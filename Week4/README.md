@@ -1,8 +1,5 @@
 # Week4 — Tasks API: OpenAPI 3.0.3 + Flask + Swagger UI
 
-Bài Buổi 4 (API Specification và OpenAPI): viết spec machine-readable,
-sinh docs tự động, implementation validate khớp spec.
-
 ## Files
 
 | File | Vai trò |
@@ -10,24 +7,6 @@ sinh docs tự động, implementation validate khớp spec.
 | `openapi.yaml` | Source of truth: OpenAPI 3.0.3, 1 endpoint `PATCH` |
 | `app.py` | Flask implement `PATCH` + `GET /openapi.json` + `GET /docs` |
 | `README.md` | File này |
-
-Spec → Doc → Implementation: `openapi.yaml` (sửa 1 nơi) → `/openapi.json`
-sinh từ file đó lúc runtime → Swagger UI ở `/docs` render từ `/openapi.json`.
-
-## Cách chạy
-
-```powershell
-.venv\Scripts\python -m pip install -r requirements.txt
-.venv\Scripts\python Week4\app.py
-```
-
-Mở http://localhost:5000/docs → nút **Authorize** → nhập `demo`
-(bất kỳ chuỗi nào sau `Bearer ` đều được, xem quyết định 2) →
-mở endpoint → **Try it out** → **Execute**.
-
-| Endpoint | Kết quả đúng spec |
-|---|---|
-| `PATCH /v1/tasks/{id}` | 200 `Task`; body rỗng / field lạ / sai enum → 422; body không phải JSON → 400; sai id → 404; thiếu token → 401 |
 
 ## 2 quyết định thiết kế khó nhất
 
@@ -58,3 +37,5 @@ Test riêng từng phần: Swagger UI render, Try it out, Flask app (`/docs`,
 ![Flask /docs](../proof_images/Week4/flask_docs.png)
 ![Flask /openapi.json](../proof_images/Week4/openapi_json.png)
 ![curl PATCH /v1/tasks/{id}](../proof_images/Week4/curl_patch.png)
+
+### Đây là bài tập nhóm, mỗi người chỉ làm một phần, ví dụ với tôi là một endpoint /patch. Sau đó mọi người trong nhóm sẽ họp lại, merge thành một repo chung
