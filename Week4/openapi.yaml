@@ -1,0 +1,155 @@
+openapi: 3.0.3
+info:
+  title: Tasks API
+  description: Quản lý task nội bộ
+  version: 1.0.0
+  contact:
+    name: API Team
+    email: api@example.vn
+servers:
+  - url: http://localhost:5000/v1
+security:
+  - bearerAuth: []
+tags:
+  - name: tasks
+    description: Quản lý task nội bộ
+paths:
+  /tasks/{taskId}:
+    parameters:
+      - name: taskId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    patch:
+      tags: [tasks]
+      operationId: patchTask
+      summary: Cập nhật một phần task
+      description: Chỉ cập nhật các trường được gửi trong request body.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTaskInput'
+      responses:
+        '200':
+          description: Cập nhật thành công
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+components:
+  schemas:
+    Task:
+      type: object
+      required: [id, title]
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+        title:
+          type: string
+          minLength: 1
+          example: "Họp nhóm API team"
+        status:
+          type: string
+          enum: [open, done]
+          example: "open"
+        priority:
+          type: string
+          enum: [low, normal, high]
+          example: "high"
+        dueDate:
+          type: string
+          format: date
+          example: "2026-09-15"
+        assigneeId:
+          type: string
+          format: uuid
+          example: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+    UpdateTaskInput:
+      type: object
+      minProperties: 1
+      additionalProperties: false
+      properties:
+        title:
+          type: string
+          minLength: 1
+          example: "Họp nhóm API team"
+        status:
+          type: string
+          enum: [open, done]
+          example: "done"
+        priority:
+          type: string
+          enum: [low, normal, high]
+          example: "high"
+        dueDate:
+          type: string
+          format: date
+          example: "2026-09-15"
+        assigneeId:
+          type: string
+          format: uuid
+          example: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+    Error:
+      type: object
+      required: [status, title]
+      properties:
+        type:
+          type: string
+          format: uri
+          example: "https://api.example.vn/errors/task-not-found"
+        title:
+          type: string
+          example: "Task not found"
+        status:
+          type: integer
+          example: 404
+        detail:
+          type: string
+          example: "task 42 thuộc user khác"
+        instance:
+          type: string
+          example: "/v1/tasks/42"
+  responses:
+    BadRequest:
+      description: Body không phải JSON hợp lệ hoặc request không hợp lệ
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Thiếu hoặc sai auth
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Không tìm thấy resource
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ValidationError:
+      description: Dữ liệu gửi lên không hợp lệ
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
