@@ -1,0 +1,53 @@
+{
+  "type": "object",
+  "required": ["id", "title", "price_vnd", "stock"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^book_[a-z0-9]+$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "isbn": {
+      "type": ["string", "null"],
+      "pattern": "^\\d{13}$"
+    },
+    "price_vnd": {
+      "type": ["integer", "null"],
+      "minimum": 0
+    },
+    "stock": {
+      "type": ["integer", "null"],
+      "minimum": 0
+    },
+    "category_id": {
+      "type": ["integer", "null"]
+    },
+    "authors": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/author"
+      }
+    }
+  },
+  "$defs": {
+    "author": {
+      "type": "object",
+      "required": ["id", "name"],
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "role": {
+          "enum": ["lead", "co", "ed"]
+        }
+      }
+    }
+  }
+}

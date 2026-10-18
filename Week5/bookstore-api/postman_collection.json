@@ -1,0 +1,9 @@
+{
+  "info": {"name": "Week 5 - Books Pagination", "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"},
+  "variable": [{"key": "baseUrl", "value": "http://127.0.0.1:5000"}],
+  "item": [
+    {"name": "Offset + genre + multi-sort", "request": {"method": "GET", "url": "{{baseUrl}}/api/v1/books?strategy=offset&offset=0&limit=20&genre=tech&sort=-price_vnd,title"}},
+    {"name": "Cursor first page", "request": {"method": "GET", "url": "{{baseUrl}}/api/v1/books?strategy=cursor&limit=20&sort=-id"}},
+    {"name": "Cursor next page", "request": {"method": "GET", "url": "{{baseUrl}}/api/v1/books?strategy=cursor&limit=20&sort=-id&cursor={{cursor}}"}}
+  ]
+}
