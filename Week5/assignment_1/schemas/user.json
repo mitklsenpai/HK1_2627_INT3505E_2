@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "user.json",
+  "title": "User",
+  "description": "Người dùng để lại đánh giá cho sách. Thuộc danh sách resource Book, Author, User.",
+  "type": "object",
+  "required": ["id", "email", "display_name"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "description": "Mã người dùng, sinh tự động.",
+      "type": "integer",
+      "minimum": 1
+    },
+    "email": {
+      "description": "Email đăng nhập, duy nhất, bắt buộc.",
+      "type": "string",
+      "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$"
+    },
+    "display_name": {
+      "description": "Tên hiển thị, bắt buộc.",
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

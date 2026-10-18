@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "author.json",
+  "title": "Author",
+  "description": "Tác giả của một hoặc nhiều cuốn sách, liên kết nhiều-nhiều với Book. Thuộc danh sách resource Book, Author, User.",
+  "type": "object",
+  "required": ["id", "name"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "description": "Mã tác giả, sinh tự động.",
+      "type": "integer",
+      "minimum": 1
+    },
+    "name": {
+      "description": "Tên tác giả, bắt buộc.",
+      "type": "string",
+      "minLength": 1
+    },
+    "bio": {
+      "description": "Tiểu sử tác giả, có thể null.",
+      "type": ["string", "null"]
+    }
+  }
+}

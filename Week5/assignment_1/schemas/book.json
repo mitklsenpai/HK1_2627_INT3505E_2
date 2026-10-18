@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "book.json",
+  "title": "Book",
+  "description": "Một cuốn sách trong nhà sách. id trả về dạng book_<id>. Thuộc danh sách resource Book, Author, User.",
+  "type": "object",
+  "required": ["id", "title", "isbn", "price_vnd", "stock", "category_id"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "description": "Mã sách, sinh tự động, dạng book_<id>.",
+      "type": "string",
+      "pattern": "^book_[a-z0-9]+$"
+    },
+    "title": {
+      "description": "Tên sách, bắt buộc.",
+      "type": "string",
+      "minLength": 1
+    },
+    "isbn": {
+      "description": "ISBN 13 chữ số, có thể null.",
+      "type": ["string", "null"],
+      "pattern": "^\\d{13}$"
+    },
+    "price_vnd": {
+      "description": "Giá bán bằng VND, không âm, có thể null.",
+      "type": ["integer", "null"],
+      "minimum": 0
+    },
+    "stock": {
+      "description": "Số lượng tồn kho, không âm, có thể null.",
+      "type": ["integer", "null"],
+      "minimum": 0
+    },
+    "category_id": {
+      "description": "Tham chiếu tới Category, có thể null.",
+      "type": ["integer", "null"],
+      "minimum": 1
+    },
+    "authors": {
+      "description": "Danh sách tác giả, quan hệ nhiều-nhiều qua bảng liên kết.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/author"
+      }
+    }
+  },
+  "$defs": {
+    "author": {
+      "type": "object",
+      "required": ["id", "name"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "role": {
+          "description": "Vai trò của tác giả trên cuốn sách.",
+          "enum": ["lead", "co", "ed"]
+        }
+      }
+    }
+  }
+}
