@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Week 6 · Social Network API Spec</title>
+  <script>
+    const endpoint = new URLSearchParams(location.search).get('endpoint');
+    if (['login', 'refresh', 'post'].includes(endpoint)) {
+      document.documentElement.dataset.endpoint = endpoint;
+    }
+  </script>
+  <style>
+    :root { font-family: Arial, Helvetica, sans-serif; color: #1d2b3a; background: #f4f7fa; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    header { background: #102c43; color: white; padding: 30px 54px 27px; }
+    header small { letter-spacing: .14em; text-transform: uppercase; color: #8dd0e6; font-weight: 700; }
+    h1 { font-size: 31px; margin: 9px 0 6px; }
+    header p { margin: 0; color: #d3e0e9; }
+    main { padding: 27px 54px; max-width: 1500px; margin: auto; }
+    .source { background: #e3edf5; border-radius: 7px; padding: 13px 17px; margin-bottom: 22px; font-size: 14px; }
+    .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 17px; }
+    article { background: white; border: 1px solid #d8e1e8; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 9px #1233; }
+    .top { border-bottom: 1px solid #e6edf2; padding: 19px 20px 15px; }
+    .method { display: inline-block; background: #287e54; color: white; font-size: 12px; font-weight: 700; border-radius: 4px; padding: 5px 8px; margin-right: 6px; }
+    .get { background: #2365ab; }
+    h2 { font-family: Consolas, monospace; font-size: 18px; margin: 10px 0; overflow-wrap: anywhere; }
+    .top p { font-size: 14px; color: #526170; line-height: 1.45; margin: 0; min-height: 42px; }
+    .section { padding: 16px 20px 4px; }
+    .label { color: #59758a; text-transform: uppercase; letter-spacing: .08em; font-weight: 700; font-size: 11px; margin-bottom: 8px; }
+    .scope { display: inline-block; background: #e7f1fa; color: #1b5e94; padding: 5px 9px; border-radius: 4px; font-family: Consolas, monospace; font-size: 13px; }
+    code { font-family: Consolas, monospace; }
+    pre { white-space: pre-wrap; overflow-wrap: anywhere; background: #f3f6f8; color: #294052; border-radius: 5px; padding: 11px 12px; font-size: 12px; line-height: 1.35; min-height: 91px; margin: 0 0 11px; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 14px; font-size: 12px; }
+    td { border-top: 1px solid #e6edf2; padding: 7px 0; vertical-align: top; }
+    td:first-child { font-weight: 700; width: 43px; }
+    .ok { color: #208153; } .err { color: #b05139; }
+    footer { color: #607184; font-size: 12px; margin-top: 18px; }
+    html[data-endpoint] main { max-width: 1050px; }
+    html[data-endpoint] .cards { grid-template-columns: 1fr; }
+    html[data-endpoint] article { display: none; }
+    html[data-endpoint="login"] #login,
+    html[data-endpoint="refresh"] #refresh,
+    html[data-endpoint="post"] #post { display: block; }
+  </style>
+</head>
+<body>
+  <header>
+    <small>INT3505E · Week 6 · OpenAPI 3.0.3</small>
+    <h1>Social Network Authentication &amp; Posts API</h1>
+    <p>Endpoint contracts, required scopes, and documented responses</p>
+  </header>
+  <main>
+    <div class="source"><strong>Source of truth:</strong> <code>Week6/openapi.yaml</code> &nbsp;·&nbsp; Base URL: <code>https://api.example.com/v1</code> &nbsp;·&nbsp; Access JWT: 15 minutes &nbsp;·&nbsp; Refresh token: opaque, single use</div>
+    <div class="cards">
+      <article id="login">
+        <div class="top"><span class="method">POST</span><h2>/auth/login</h2><p>Authenticate with email and password. Generic failure message prevents account enumeration.</p></div>
+        <div class="section"><div class="label">Required scope</div><span class="scope">None · public</span></div>
+        <div class="section"><div class="label">JSON request</div><pre>{
+  "email": "an@example.com",
+  "password": "example-password"
+}</pre></div>
+        <div class="section"><div class="label">Responses</div><table>
+          <tr><td class="ok">200</td><td>Access JWT + refresh token issued</td></tr>
+          <tr><td class="err">400</td><td>Malformed or missing request fields</td></tr>
+          <tr><td class="err">401</td><td>Invalid email or password</td></tr>
+          <tr><td class="err">429</td><td>Too many login attempts</td></tr>
+        </table></div>
+      </article>
+      <article id="refresh">
+        <div class="top"><span class="method">POST</span><h2>/auth/refresh</h2><p>Exchange a single-use refresh token. A successful request invalidates the old token.</p></div>
+        <div class="section"><div class="label">Required scope</div><span class="scope">None · refresh credential</span></div>
+        <div class="section"><div class="label">JSON request</div><pre>{
+  "refresh_token": "rft_example_only"
+}</pre></div>
+        <div class="section"><div class="label">Responses</div><table>
+          <tr><td class="ok">200</td><td>New token pair; old refresh token invalid</td></tr>
+          <tr><td class="err">400</td><td>Malformed or missing request fields</td></tr>
+          <tr><td class="err">401</td><td>Invalid, expired, revoked, or reused token</td></tr>
+          <tr><td class="err">429</td><td>Too many refresh attempts</td></tr>
+        </table></div>
+      </article>
+      <article id="post">
+        <div class="top"><span class="method get">GET</span><h2>/posts/{id}</h2><p>Read a private post belonging to the caller. Other users' posts return 404.</p></div>
+        <div class="section"><div class="label">Required scope</div><span class="scope">posts:read</span> <span class="scope">Bearer JWT</span></div>
+        <div class="section"><div class="label">Path and response</div><pre>id: UUID
+200: { id, author_id, content,
+       created_at }</pre></div>
+        <div class="section"><div class="label">Responses</div><table>
+          <tr><td class="ok">200</td><td>Caller owns the post</td></tr>
+          <tr><td class="err">400</td><td>Invalid post ID</td></tr>
+          <tr><td class="err">401</td><td>Missing, invalid, or expired JWT</td></tr>
+          <tr><td class="err">403</td><td>Missing posts:read scope</td></tr>
+          <tr><td class="err">404</td><td>Post absent or not owned by caller</td></tr>
+        </table></div>
+      </article>
+    </div>
+    <footer>This is a visual summary of <code>openapi.yaml</code>; request and response schemas are defined in the OpenAPI file.</footer>
+  </main>
+</body>
+</html>
