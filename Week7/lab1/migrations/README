@@ -1,0 +1,10 @@
+# Migration directory for Lab 1 (Product API).
+
+Run:
+```
+$env:FLASK_APP = "wsgi:app"
+flask db migrate -m "describe change"
+flask db upgrade
+```
+
+Current head: `733654798f39` → initial schema (products).
