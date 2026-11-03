@@ -1,0 +1,12 @@
+services:
+  api:
+    build: .
+    environment:
+      DB_URL: sqlite:////app/db/homework.db
+      SECRET_KEY: dev-only-secret
+      LOG_LEVEL: INFO
+      FLASK_APP: wsgi:app
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./../db:/app/db

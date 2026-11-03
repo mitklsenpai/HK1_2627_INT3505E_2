@@ -1,0 +1,9 @@
+.import .venv/__pycache__
+__pycache__
+*.pyc
+instance
+tests
+.pytest_cache
+.env
+.env.*
+migrations/versions/__pycache__
