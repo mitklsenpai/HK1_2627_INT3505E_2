@@ -1,0 +1,58 @@
+
+openapi: 3.0.3
+
+info:
+  title: Product API
+  version: 1.0.0
+  description: Simple Product Management API
+
+paths:
+  /products/:
+    get:
+      summary: Get all products
+      operationId: handlers.get_products
+      responses:
+        "200":
+          description: List of products
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  products:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Product"
+
+    post:
+      summary: Add a new product
+      operationId: handlers.add_product
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+      responses:
+        "201":
+          description: Product created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+
+components:
+  schemas:
+    Product:
+      type: object
+      required:
+        - id
+        - name
+        - price
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        price:
+          type: number
