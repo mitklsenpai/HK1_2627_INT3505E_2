@@ -20,3 +20,6 @@ htmlcov/
 # Local environment files
 .env
 .env.*
+
+# Local SQLite databases
+instance/
