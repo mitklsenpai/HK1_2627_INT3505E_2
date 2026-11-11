@@ -1,0 +1,43 @@
+extends: ["spectral:oas"]
+
+rules:
+  no-content-for-204:
+    description: Response 204 must not declare a response body.
+    severity: error
+    given: "$.paths[*][*].responses['204']"
+    then:
+      field: content
+      function: undefined
+
+  book-year-integer:
+    description: Book.year must match the integer type of the database model.
+    severity: error
+    given: "$.components.schemas.Book.properties.year"
+    then:
+      field: type
+      function: enumeration
+      functionOptions:
+        values: [integer]
+
+  response-200-schema-not-empty:
+    description: Every response 200 must declare a non-empty JSON schema.
+    severity: error
+    given: "$.paths[*][*].responses['200']"
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          required: [content]
+          properties:
+            content:
+              type: object
+              required: [application/json]
+              properties:
+                application/json:
+                  type: object
+                  required: [schema]
+                  properties:
+                    schema:
+                      type: object
+                      minProperties: 1
