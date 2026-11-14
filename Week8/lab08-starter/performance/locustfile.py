@@ -9,6 +9,7 @@ import random
 from locust import HttpUser, between, task
 
 _counter = itertools.count(1)
+_year_counter = itertools.count(1)
 
 
 class BooksUser(HttpUser):
@@ -39,5 +40,16 @@ class BooksUser(HttpUser):
             name="POST /books",
         )
 
-    # LAB 4: add search_by_year() and explain any injected failures.
-    # A client-side artificial failure is not a real HTTP 500 from the server.
+    @task(1)
+    def search_by_year(self):
+        year = random.choice([1999, 2005, 2017, 2021])
+        with self.client.get(
+            f"/books?year={year}", name="GET /books?year=", catch_response=True
+        ) as response:
+            if response.status_code != 200:
+                response.failure(f"Unexpected status {response.status_code}")
+            elif next(_year_counter) % 100 == 0:
+                # Exactly 1% simulated 500: marked client-side by Locust on a 200 response.
+                response.failure("Simulated 500 (client-side, server returned 200)")
+            else:
+                response.success()
