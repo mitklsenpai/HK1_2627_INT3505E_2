@@ -109,6 +109,14 @@ locust -f performance/locustfile.py --headless -H http://127.0.0.1:5000 \
 
 Hoàn thiện TODO `search_by_year` và nếu tạo 1% failure giả lập, **ghi rõ** đó là HTTP 500 do server phát hay client-side `response.failure()` của Locust. Điền `performance/analysis.md` bằng kết quả **đo thực tế**; báo cáo p95, failure rate, RPS, nhận xét giới hạn phép đo. Load test chạy Flask development server + SQLite chỉ có ý nghĩa thực hành, không thể khẳng định SLO production.
 
+Kết quả đo thực tế (ảnh và report của từng kịch bản):
+
+**Kịch bản A — baseline (10 user, 30s):** [A.html](reports/A.html)
+
+![Locust kịch bản A](../../proof_images/Week8/lab4/01_locust_A.png)
+
+Phân tích chi tiết và số liệu p95/failure/RPS ở [performance/analysis.md](performance/analysis.md). Failure 1% của `search_by_year` là client-side `response.failure()` trên response 200, không phải HTTP 500 từ server.
+
 ## 6. Cấu trúc thư mục
 
 ```text
