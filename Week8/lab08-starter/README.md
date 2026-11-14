@@ -117,6 +117,10 @@ Kết quả đo thực tế (ảnh và report của từng kịch bản):
 
 Phân tích chi tiết và số liệu p95/failure/RPS ở [performance/analysis.md](performance/analysis.md). Failure 1% của `search_by_year` là client-side `response.failure()` trên response 200, không phải HTTP 500 từ server.
 
+**Kịch bản B — load (50 user, 60s):** [B.html](reports/B.html)
+
+![Locust kịch bản B](../../proof_images/Week8/lab4/02_locust_B.png)
+
 ## 6. Cấu trúc thư mục
 
 ```text
