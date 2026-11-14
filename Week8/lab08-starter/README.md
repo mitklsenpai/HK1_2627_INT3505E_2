@@ -121,6 +121,10 @@ Phân tích chi tiết và số liệu p95/failure/RPS ở [performance/analysis
 
 ![Locust kịch bản B](../../proof_images/Week8/lab4/02_locust_B.png)
 
+**Kịch bản C — spike (200 user, 30s):** [C.html](reports/C.html)
+
+![Locust kịch bản C](../../proof_images/Week8/lab4/03_locust_C.png)
+
 ## 6. Cấu trúc thư mục
 
 ```text
