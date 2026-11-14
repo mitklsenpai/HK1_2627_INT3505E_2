@@ -82,6 +82,17 @@ newman run books-api.postman_collection.json \
 
 Lưu ý: cần chạy server trước. `data.csv` là dữ liệu ví dụ để thực hành data-driven iteration; khi sử dụng `-d data.csv`, collection sẽ lặp theo số hàng. Đừng hard-code credentials/tokens trong file đẩy lên Git.
 
+Kết quả chạy thực tế (PowerShell cần đặt `-r "cli,junit"` trong ngoặc kép):
+
+- Trước khi thêm `error-cases/`: 5 request, 10 assertion — collection gốc chỉ có happy path.
+- Sau khi thêm: 7 request, 16 assertion, 0 fail; `reports/junit.xml` có 16 `testcase`.
+
+![Newman trước khi thêm error-cases](../../proof_images/Week8/lab3/01_newman_before.png)
+
+![Newman sau khi thêm error-cases](../../proof_images/Week8/lab3/02_newman_after.png)
+
+![JUnit report reports/junit.xml](../../proof_images/Week8/lab3/03_junit_xml.png)
+
 ## 5. Lab 4 — Locust
 
 `performance/locustfile.py` là baseline có weighted tasks; `performance/locustfile_realistic.py` minh hoạ flow có state và demo login. Chạy API trong terminal 1; terminal 2:
